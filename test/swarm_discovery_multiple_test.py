@@ -44,20 +44,13 @@ async def test_swarm_discovery() -> None:
     tasks = [
         test_drone(
             drone_id=1,
-            system_address="udp://:14540",
+            system_address="serial:///dev/ttyACM0:57600",
             xbee_port="/dev/ttyUSB0",
             port=50060,
             delay=0,
-            camera=False
-        ),
-         test_drone(
-            drone_id=2,
-            system_address="udp://:14541",
-            xbee_port="/dev/ttyUSB1",
-            port=50061,
-            delay=0,
             camera=True
         ),
+   
         # Add more test_drone calls here for additional drones if needed
     ]
     try:
