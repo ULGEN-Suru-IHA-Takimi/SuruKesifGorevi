@@ -12,15 +12,12 @@ import threading
 from mavsdk.offboard import VelocityNedYaw
 from services.xbee_service import XbeeService
 
-RealtimeCameraViewer = ComputerCameraTest
-
 class SwarmDiscovery(OffboardControl):
     """
     SwarmDiscovery mission: square oscillation flight and ArUco-based precision landing.
     """
     def __init__(self, xbee_port: str = None, camera = False):
         super().__init__()
-        self.pi_cam = None
         self.mission_completed = False
         self.xbee_service = XbeeService(
             message_received_callback=XbeeService.default_message_received_callback,
@@ -28,12 +25,8 @@ class SwarmDiscovery(OffboardControl):
             max_queue_size=100,
             baudrate=57600
         )
-
-        if camera:
-            self.pi_cam = RealtimeCameraViewer()
-        else:
-            self.pi_cam = ComputerCameraTest()
-
+        self.pi_cam = RealtimeCameraViewer()
+   
         # Set custom message handler for swarm coordination
         self.xbee_service.set_custom_message_handler(self.handle_swarm_message)
         
